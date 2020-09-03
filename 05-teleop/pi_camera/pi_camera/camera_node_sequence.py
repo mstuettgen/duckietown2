@@ -81,11 +81,11 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
   pass
 
 def web_serve(camera):
-  try:
-    httpd = ThreadedHTTPServer(('', 8001), WebHandler)
-    httpd.camera = camera
-    httpd.serve_forever()
-  except:
+  #try:
+    #httpd = ThreadedHTTPServer(('', 8001), WebHandler)
+    #httpd.camera = camera
+    #httpd.serve_forever()
+  #except:
     pass
 
 
@@ -99,7 +99,7 @@ class CameraNode(Node):
         self.log.info("Initializing......")
 
         # TODO:ROSv2: hardcoded values
-        self.framerate_high = 5.0 # self.setupParam("~framerate_high",30.0)
+        self.framerate_high = 30.0 # self.setupParam("~framerate_high",30.0)
         self.framerate_low = 15.0 # self.setupParam("~framerate_low",15.0)
         self.res_w = 640 # self.setupParam("~res_w",640)
         self.res_h = 480 # self.setupParam("~res_h",480)
@@ -132,8 +132,8 @@ class CameraNode(Node):
         self.frame_id = "camera_optical_frame"
 
         self.has_published = False
-        self.pub_img = self.create_publisher(CompressedImage, "image/compressed") # queue_size=1
-        self.sub_switch_high = self.create_subscription(BoolStamped, "framerate_high_switch", self.cbSwitchHigh) # queue_size=1
+        self.pub_img = self.create_publisher(CompressedImage, "image/compressed", 10) # queue_size=1
+        self.sub_switch_high = self.create_subscription(BoolStamped, "framerate_high_switch", self.cbSwitchHigh, 10) # queue_size=1
 
         # Create service (for camera_calibration)
         self.srv_set_camera_info = self.create_service(SetCameraInfo, "set_camera_info", self.cbSrvSetCameraInfo)

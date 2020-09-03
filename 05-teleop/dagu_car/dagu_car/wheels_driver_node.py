@@ -30,12 +30,12 @@ class WheelsDriverNode(Node):
 
         self.driver = DaguWheelsDriver()
         self.msg_wheels_cmd = WheelsCmdStamped()
-        self.pub_wheels_cmd = self.create_publisher(WheelsCmdStamped, 'wheels_cmd_executed')
+        self.pub_wheels_cmd = self.create_publisher(WheelsCmdStamped, 'wheels_cmd_executed', 1)
 
         self.control_constant = 1.0
 
-        self.sub_topic = self.create_subscription(WheelsCmdStamped, 'wheels_cmd', self.cbWheelsCmd)
-        self.sub_e_stop = self.create_subscription(BoolStamped, 'wheels_driver_node/emergency_stop', self.cbEStop)
+        self.sub_topic = self.create_subscription(WheelsCmdStamped, 'wheels_cmd', self.cbWheelsCmd, 1)
+        self.sub_e_stop = self.create_subscription(BoolStamped, 'wheels_driver_node/emergency_stop', self.cbEStop, 1)
 
     def cbWheelsCmd(self,msg):
         if self.estop:
